@@ -3,218 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Impulsa Tu Digital | Marketing y Desarrollo Web</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <title>ImpulsaTuDigital - Impulsa tu Presencia Digital</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
-        :root {
-            --primary: #6C5CE7;
-            --secondary: #00CEFF;
-            --dark: #1A1A2E;
-            --light: #F1F1F1;
-            --accent: #FF2E63;
-        }
-
-        /* RESET & BASE STYLES */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            cursor: none !important;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--dark);
-            color: var(--light);
+            font-family: 'Arial', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
             overflow-x: hidden;
         }
 
-        h1, h2, h3 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 900;
-            text-transform: uppercase;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .container {
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
             width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(20px);
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
         }
 
-        /* CUSTOM CURSOR */
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--accent);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            mix-blend-mode: difference;
-            z-index: 9999;
-            transition: transform 0.2s;
-        }
-
-        .cursor-follower {
-            width: 40px;
-            height: 40px;
-            border: 1px solid var(--secondary);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
-            transition: transform 0.4s, opacity 0.1s;
-        }
-
-        /* HEADER */
-        header {
-            position: fixed;
-            width: 100%;
-            padding: 1.5rem 0;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            background: rgba(26, 26, 46, 0.7);
-            z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .header-container {
+        .nav-container {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: 900;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
             -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 3s ease-in-out infinite;
         }
 
-        nav ul {
+        .nav-links {
             display: flex;
             list-style: none;
             gap: 2rem;
         }
 
-        nav ul li a {
-            color: var(--light);
+        .nav-links a {
+            color: #ffffff;
             text-decoration: none;
-            font-weight: 600;
+            transition: all 0.3s ease;
             position: relative;
-            padding: 0.5rem 0;
         }
 
-        nav ul li a::after {
+        .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: 0;
-            left: 0;
             width: 0;
             height: 2px;
-            background: var(--accent);
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
             transition: width 0.3s ease;
         }
 
-        nav ul li a:hover::after {
+        .nav-links a:hover::after {
             width: 100%;
         }
 
-        /* HERO SECTION */
+        /* Hero Section */
         .hero {
             height: 100vh;
+            position: relative;
             display: flex;
             align-items: center;
-            position: relative;
+            justify-content: center;
+            text-align: center;
             overflow: hidden;
         }
 
-        #particles-js {
+        #hero-canvas {
             position: absolute;
-            width: 100%;
-            height: 100%;
             top: 0;
             left: 0;
-            z-index: 1;
+            z-index: -1;
         }
 
         .hero-content {
-            position: relative;
-            z-index: 2;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .hero-text {
-            max-width: 600px;
-        }
-
-        .hero-image {
-            position: relative;
-            text-align: center;
-        }
-
-        .hero-image img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
+            z-index: 10;
+            max-width: 800px;
+            padding: 2rem;
         }
 
         .hero h1 {
             font-size: 4rem;
-            line-height: 1;
-            margin-bottom: 2rem;
-            text-shadow: 0 10px 30px rgba(108, 92, 231, 0.3);
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 4s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
         }
 
         .hero p {
-            font-size: 1.2rem;
-            line-height: 1.8;
-            margin-bottom: 3rem;
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
             opacity: 0.9;
+            line-height: 1.6;
         }
 
-        .btn {
+        .cta-button {
             display: inline-block;
-            padding: 1rem 2.5rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: var(--dark);
-            font-weight: 800;
+            padding: 15px 40px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
             text-decoration: none;
             border-radius: 50px;
-            box-shadow: 0 10px 30px rgba(108, 92, 231, 0.5);
-            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
             position: relative;
             overflow: hidden;
         }
 
-        .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(108, 92, 231, 0.7);
-        }
-
-        .btn::before {
+        .cta-button::before {
             content: '';
             position: absolute;
             top: 0;
@@ -222,347 +139,571 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
+            transition: left 0.5s ease;
         }
 
-        .btn:hover::before {
+        .cta-button:hover::before {
             left: 100%;
         }
 
-        /* ABOUT SECTION */
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Services Section */
+        .services {
+            padding: 100px 2rem;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            position: relative;
+        }
+
+        .services::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23333" stroke-width="0.5" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 107, 107, 0.1), rgba(78, 205, 196, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.2);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .service-card:nth-child(2) .service-icon {
+            animation-delay: -1s;
+        }
+
+        .service-card:nth-child(3) .service-icon {
+            animation-delay: -2s;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .service-card p {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        /* About Section */
         .about {
-            padding: 8rem 0;
-            background: rgba(0, 0, 0, 0.2);
+            padding: 100px 2rem;
+            background: #0a0a0a;
         }
 
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 4rem;
+            gap: 3rem;
             align-items: center;
-        }
-
-        .about-image img {
-            max-width: 100%;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         }
 
         .about-text h2 {
-            font-size: 3rem;
-            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .about-text p {
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-            opacity: 0.9;
+            color: #cccccc;
+            line-height: 1.6;
+            margin-bottom: 2rem;
         }
 
-        .stats {
+        .about-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 2rem;
-            margin-top: 3rem;
+            margin-top: 2rem;
         }
 
-        .stat-item {
+        .stat-box {
             text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(20px);
         }
 
         .stat-number {
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            font-size: 2.5rem;
+            font-weight: bold;
             margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* SERVICES SECTION */
-        .services {
-            padding: 8rem 0;
-            position: relative;
+        .stat-label {
+            color: #cccccc;
+            font-size: 1rem;
         }
 
-        .section-title {
-            text-align: center;
-            margin-bottom: 6rem;
+        .about-features {
+            margin-top: 3rem;
         }
 
-        .section-title h2 {
-            font-size: 3.5rem;
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
             margin-bottom: 1.5rem;
         }
 
-        .service-section {
-            margin-bottom: 6rem;
-        }
-
-        .service-header {
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            border-radius: 50%;
             display: flex;
             align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .team {
+            margin-top: 4rem;
+        }
+
+        .team h3 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 107, 107, 0.2);
+        }
+
+        .team-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+        }
+
+        .team-member h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member p {
+            color: #4ecdc4;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .team-member .bio {
+            color: #cccccc;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 100px 2rem;
+            background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
+        }
+
+        .pricing-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        .pricing-header p {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        .pricing-tabs {
+            display: flex;
+            justify-content: center;
             margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
 
-        .service-icon-large {
-            font-size: 4rem;
-            margin-right: 2rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        .pricing-tab {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .service-packages {
+        .pricing-tab.active {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+        }
+
+        .pricing-slider {
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+
+        .pricing-slides {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .pricing-plan {
+            min-width: 100%;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+
+        .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
 
-        .package-card {
+        .pricing-card {
             background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 3rem 2rem;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.5s;
             position: relative;
             overflow: hidden;
         }
 
-        .package-card.popular {
-            border: 1px solid var(--accent);
+        .pricing-card.popular {
+            border: 2px solid #4ecdc4;
             transform: scale(1.05);
         }
 
-        .package-card.popular::before {
-            content: 'POPULAR';
+        .pricing-card.popular::before {
+            content: 'Popular';
             position: absolute;
-            top: 20px;
+            top: 15px;
             right: -30px;
-            background: var(--accent);
-            color: var(--dark);
-            padding: 0.3rem 3rem;
-            font-weight: 800;
+            background: #4ecdc4;
+            color: #0a0a0a;
+            padding: 5px 30px;
             transform: rotate(45deg);
+            font-weight: bold;
             font-size: 0.8rem;
         }
 
-        .package-card h3 {
+        .pricing-card h3 {
             font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
             margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .package-price {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            color: var(--secondary);
-        }
-
-        .package-features {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-
-        .package-features li {
-            margin-bottom: 0.8rem;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-
-        .package-features li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--accent);
-        }
-
-        /* REVIEWS SECTION */
-        .reviews {
-            padding: 8rem 0;
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .reviews-slider {
-            display: flex;
-            overflow-x: auto;
-            gap: 2rem;
-            padding: 2rem 0;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .reviews-slider::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .reviews-slider::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-
-        .reviews-slider::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
-        .review-card {
-            min-width: 350px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 2rem;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            scroll-snap-align: start;
-        }
-
-        .review-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .review-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 1rem;
-            border: 2px solid var(--primary);
-        }
-
-        .review-stars {
-            color: #FFD700;
+        .price span {
             font-size: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .review-text {
-            font-style: italic;
-            margin-bottom: 1.5rem;
-        }
-
-        .review-author {
-            font-weight: 600;
-        }
-
-        /* CONTACT SECTION */
-        .contact {
-            padding: 8rem 0;
-            background: rgba(0, 0, 0, 0.2);
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 4rem;
-        }
-
-        .contact-info h3 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-info p {
-            margin-bottom: 2rem;
             opacity: 0.8;
         }
 
-        .contact-details {
+        .pricing-features {
             list-style: none;
+            margin-bottom: 2rem;
         }
 
-        .contact-details li {
-            margin-bottom: 1.5rem;
+        .pricing-features li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: #cccccc;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 107, 107, 0.2);
+        }
+
+        .pricing-card.popular:hover {
+            transform: translateY(-10px) scale(1.05);
+        }
+
+        .pricing-nav {
             display: flex;
-            align-items: center;
+            justify-content: center;
+            margin-top: 2rem;
+            gap: 1rem;
         }
 
-        .contact-details li i {
+        .pricing-nav-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .pricing-nav-btn.active {
+            background: #4ecdc4;
+            transform: scale(1.2);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 100px 2rem;
+            background: #0a0a0a;
+        }
+
+        .testimonial-slider {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .testimonial {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .testimonial-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            color: #4ecdc4;
+            font-weight: bold;
+        }
+
+        .testimonial-rating {
+            color: #ff6b6b;
             font-size: 1.5rem;
-            margin-right: 1rem;
-            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 100px 2rem;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            text-align: center;
+        }
+
+        .contact-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .contact-form {
             background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
             border-radius: 20px;
-            padding: 3rem;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            padding: 2rem;
+            margin-top: 2rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .form-group {
             margin-bottom: 1.5rem;
+            text-align: left;
         }
 
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: 600;
+            color: #cccccc;
         }
 
         .form-group input,
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 1rem;
+            padding: 12px 15px;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            color: var(--light);
-            font-family: 'Inter', sans-serif;
-            transition: all 0.3s;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
         .form-group input:focus,
         .form-group textarea:focus,
         .form-group select:focus {
             outline: none;
-            border-color: var(--primary);
-            background: rgba(108, 92, 231, 0.1);
+            border-color: #4ecdc4;
+            background: rgba(255, 255, 255, 0.15);
         }
 
-        .form-submit {
-            width: 100%;
-            padding: 1rem;
-            background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: var(--dark);
-            font-weight: 800;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
         }
 
-        .form-submit:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.5);
-        }
-
-        /* FOOTER */
-        footer {
-            padding: 5rem 0 2rem;
-            background: var(--dark);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer-grid {
+        .contact-info {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 3rem;
-            margin-bottom: 3rem;
+            gap: 2rem;
+            margin-top: 3rem;
         }
 
-        .footer-col h3 {
-            font-size: 1.5rem;
+        .contact-item {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(20px);
+        }
+
+        /* Footer */
+        .footer {
+            background: #0a0a0a;
+            padding: 4rem 2rem 2rem;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
             margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .footer-links {
@@ -574,193 +715,265 @@
         }
 
         .footer-links a {
-            color: rgba(255, 255, 255, 0.7);
+            color: #cccccc;
             text-decoration: none;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
         }
 
         .footer-links a:hover {
-            color: var(--secondary);
+            color: #4ecdc4;
             padding-left: 5px;
         }
 
         .social-links {
             display: flex;
             gap: 1rem;
+            margin-top: 1.5rem;
         }
 
         .social-links a {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             width: 40px;
             height: 40px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
-            color: var(--light);
-            transition: all 0.3s;
+            color: white;
+            transition: all 0.3s ease;
         }
 
         .social-links a:hover {
-            background: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .newsletter input {
-            width: 100%;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
-            color: var(--light);
-            margin-bottom: 1rem;
-        }
-
-        .newsletter button {
-            width: 100%;
-            padding: 1rem;
-            background: var(--accent);
-            color: var(--dark);
-            font-weight: 800;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .newsletter button:hover {
-            background: #ff1a53;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
             transform: translateY(-3px);
         }
 
         .footer-bottom {
             text-align: center;
-            padding-top: 2rem;
+            padding-top: 3rem;
+            margin-top: 3rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            opacity: 0.7;
+            color: #888;
+            font-size: 0.9rem;
         }
 
-        /* ANIMATIONS & MEDIA QUERIES */
-        @media (max-width: 1024px) {
-            .hero-content,
-            .about-content {
-                grid-template-columns: 1fr;
-                text-align: center;
+        .footer-bottom-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .footer-bottom-links a {
+            color: #888;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-bottom-links a:hover {
+            color: #4ecdc4;
+        }
+
+        /* Animations */
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(78, 205, 196, 0.6);
+            border-radius: 50%;
+            animation: particle-float 15s infinite linear;
+        }
+
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
             }
-            
-            .hero-image,
-            .about-image {
-                order: -1;
-                margin-bottom: 3rem;
+            10% {
+                opacity: 1;
             }
-            
-            .service-header {
-                flex-direction: column;
-                text-align: center;
+            90% {
+                opacity: 1;
             }
-            
-            .service-icon-large {
-                margin-right: 0;
-                margin-bottom: 1rem;
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
             }
         }
 
+        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 3.5rem;
-            }
-            
-            nav ul {
-                gap: 1rem;
-            }
-            
-            .package-card.popular {
-                transform: none;
-            }
-            
-            .stats {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
             .hero h1 {
                 font-size: 2.5rem;
             }
             
-            .header-container {
-                flex-direction: column;
-                gap: 1rem;
+            .hero p {
+                font-size: 1.1rem;
             }
             
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
+            .nav-links {
+                display: none;
+            }
+            
+            .services-grid, .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.popular {
+                transform: scale(1);
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .about-stats {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
-
-    <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <div class="logo">Impulsa Tu Digital</div>
-            <nav>
-                <ul>
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#nosotros">Sobre Nosotros</a></li>
-                    <li><a href="#servicios">Servicios</a></li>
-                    <li><a href="#testimonios">Testimonios</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
-                </ul>
-            </nav>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">ImpulsaTuDigital</div>
+            <ul class="nav-links">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#precios">Precios</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
         </div>
-    </header>
+    </nav>
+
+    <!-- Floating Particles -->
+    <div class="particles" id="particles"></div>
 
     <!-- Hero Section -->
-    <section class="hero" id="inicio">
-        <div id="particles-js"></div>
+    <section id="inicio" class="hero">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-content">
+            <h1>Impulsa tu Presencia Digital</h1>
+            <p>Transformamos tu negocio con estrategias digitales innovadoras. Gestión de reseñas, desarrollo web profesional y redes sociales que generan resultados reales.</p>
+            <a href="#contacto" class="cta-button">Comienza tu Transformación Digital</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="servicios" class="services">
         <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Transforma tu presencia digital</h1>
-                    <p>Impulsamos tu negocio al siguiente nivel con estrategias de marketing digital personalizadas y desarrollo web de alto impacto. Nuestro equipo de expertos crea soluciones a medida para maximizar tu visibilidad y conversiones.</p>
-                    <a href="#contacto" class="btn">Comienza ahora</a>
+            <h2 class="section-title">Nuestros Servicios</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">⭐</div>
+                    <h3>Gestión de Reseñas Google</h3>
+                    <p>Optimizamos y gestionamos tus reseñas para mejorar tu reputación online y aumentar tu visibilidad en las búsquedas locales con estrategias éticas y efectivas.</p>
                 </div>
-                <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Equipo trabajando en marketing digital">
+                <div class="service-card">
+                    <div class="service-icon">🌐</div>
+                    <h3>Desarrollo Web Profesional</h3>
+                    <p>Creamos sitios web rápidos, seguros y optimizados para SEO que convierten visitantes en clientes, con diseños modernos y adaptados a móviles.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">📱</div>
+                    <h3>Gestión de Redes Sociales</h3>
+                    <p>Gestión profesional de redes sociales con contenido estratégico, crecimiento orgánico y campañas publicitarias para aumentar tu alcance y engagement.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- About Section -->
-    <section class="about" id="nosotros">
+    <section id="nosotros" class="about">
         <div class="container">
             <div class="about-content">
-                <div class="about-image">
-                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Nuestro equipo">
-                </div>
                 <div class="about-text">
                     <h2>Sobre Nosotros</h2>
-                    <p>Impulsa Tu Digital nació en 2015 con la visión de ayudar a las empresas a prosperar en el mundo digital. Lo que comenzó como un pequeño equipo de apasionados por el marketing digital, hoy es una agencia reconocida con más de 50 clientes satisfechos.</p>
-                    <p>Nuestro enfoque se basa en entender profundamente cada negocio para desarrollar estrategias personalizadas que generen resultados reales y medibles. No creemos en soluciones genéricas, sino en planes de acción diseñados específicamente para tus objetivos.</p>
-                    <div class="stats">
-                        <div class="stat-item">
-                            <div class="stat-number">50+</div>
-                            <div>Clientes satisfechos</div>
+                    <p>Somos un equipo apasionado de expertos en marketing digital, desarrollo web y gestión de reputación online. Con más de 8 años de experiencia, hemos ayudado a cientos de empresas a transformar su presencia digital y alcanzar el éxito.</p>
+                    
+                    <div class="about-stats">
+                        <div class="stat-box">
+                            <div class="stat-number">100</div>
+                            <div class="stat-label">Clientes Satisfechos</div>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-number">8</div>
-                            <div>Años de experiencia</div>
+                        <div class="stat-box">
+                            <div class="stat-number">2000</div>
+                            <div class="stat-label">Reseñas Gestionadas</div>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-number">15</div>
-                            <div>Expertos en equipo</div>
+                        <div class="stat-box">
+                            <div class="stat-number">98%</div>
+                            <div class="stat-label">Tasa de Satisfacción</div>
+                        </div>
+                    </div>
+                    
+                    <div class="about-features">
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <div>
+                                <h4>Resultados Medibles</h4>
+                                <p>Nos enfocamos en métricas reales que impactan directamente en el crecimiento de tu negocio.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <div>
+                                <h4>Equipo Experto</h4>
+                                <p>Profesionales certificados con experiencia comprobada en transformación digital.</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <div>
+                                <h4>Calidad Garantizada</h4>
+                                <p>Comprometidos con la excelencia en cada proyecto que desarrollamos.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team">
+                    <h3>Nuestro Equipo</h3>
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <div class="team-photo">DM</div>
+                            <h4>Diego Martínez</h4>
+                            <p>CEO & Fundador</p>
+                            <p class="bio">Experto en marketing digital con más de 8 años transformando negocios online.</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="team-photo">LS</div>
+                            <h4>Laura Sánchez</h4>
+                            <p>Directora de Desarrollo</p>
+                            <p class="bio">Desarrolladora web especializada en crear experiencias digitales excepcionales.</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="team-photo">RG</div>
+                            <h4>Roberto García</h4>
+                            <p>Especialista en SEO</p>
+                            <p class="bio">Experto en posicionamiento web con resultados comprobados en primera página de Google.</p>
                         </div>
                     </div>
                 </div>
@@ -768,483 +981,512 @@
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section class="services" id="servicios">
+    <!-- Pricing Section -->
+    <section id="precios" class="pricing">
         <div class="container">
-            <div class="section-title">
-                <h2>Nuestros Servicios</h2>
-                <p>Soluciones especializadas para hacer crecer tu negocio en el mundo digital</p>
+            <h2 class="section-title">Nuestros Planes</h2>
+            <div class="pricing-header">
+                <p>Elige el plan perfecto para impulsar tu presencia digital. Todos nuestros planes incluyen soporte profesional y resultados garantizados.</p>
             </div>
             
-            <!-- Reseñas de Google -->
-            <div class="service-section">
-                <div class="service-header">
-                    <div class="service-icon-large">
-                        <i class="fas fa-star"></i>
+            <div class="pricing-tabs">
+                <div class="pricing-tab active" data-tab="reseñas">Reseñas Google</div>
+                <div class="pricing-tab" data-tab="web">Desarrollo Web</div>
+                <div class="pricing-tab" data-tab="redes">Redes Sociales</div>
+            </div>
+            
+            <div class="pricing-slider">
+                <div class="pricing-slides">
+                    <!-- Slide 1: Reseñas Google -->
+                    <div class="pricing-plan" data-plan="reseñas">
+                        <div class="pricing-grid">
+                            <div class="pricing-card">
+                                <h3>Básico</h3>
+                                <div class="price">$299<span>/mes</span></div>
+                                <ul class="pricing-features">
+                                    <li>Gestión de hasta 20 reseñas/mes</li>
+                                    <li>Respuesta a reseñas</li>
+                                    <li>Informe mensual de reputación</li>
+                                    <li>Soporte por email</li>
+                                    <li>Optimización básica de perfil</li>
+                                </ul>
+                                <a href="#contacto" class="cta-button">Contratar</a>
+                            </div>
+                            
+                            <div class="pricing-card popular">
+                                <h3>Profesional</h3>
+                                <div class="price">$599<span>/mes</span></div>
+                                <ul class="pricing-features">
+                                    <li>Gestión de hasta 50 reseñas/mes</li>
+                                    <li>Respuesta personalizada</li>
+                                    <li>Informe semanal de reputación</li>
+                                    <li>Soporte prioritario</li>
+                                    <li>Estrategia de captación de reseñas</li>
+                                    <li>Optimización avanzada de perfil</li>
+                                </ul>
+                                <a href="#contacto" class="cta-button">Contratar</a>
+                            </div>
+                            
+                            <div class="pricing-card">
+                                <h3>Enterprise</h3>
+                                <div class="price">$999<span>/mes</span></div>
+                                <ul class="pricing-features">
+                                    <li>Gestión ilimitada de reseñas</li>
+                                    <li>Respuesta personalizada 24/7</li>
+                                    <li>Informe diario de reputación</li>
+                                    <li>Soporte VIP telefónico</li>
+                                    <li>Estrategia avanzada de captación</li>
+                                    <li>Optimización completa de perfil</li>
+                                    <li>Análisis de competencia</li>
+                                </ul>
+                                <a href="#contacto" class="cta-button">Contratar</a>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <h2>Reseñas de Google</h2>
-                        <p>Gestionamos y optimizamos tus reseñas para mejorar tu reputación online y aumentar tu visibilidad en las búsquedas locales con estrategias éticas y efectivas.</p>
+                    
+                    <!-- Slide 2: Desarrollo Web -->
+                    <div class="pricing-plan" data-plan="web" style="display: none;">
+                        <div class="pricing-grid">
+                            <div class="pricing-card">
+                                <h3>Básico</h3>
+                                <div class="price">$499<span>/único</span></div>
+                                <ul class="pricing-features">
+                                    <li>Diseño de 3 páginas</li>
+                                    <li>Diseño responsivo</li>
+                                    <li>SEO básico</li>
+                                    <li>Formulario de contacto</li>
+                                    <li>Soporte por email</li>
+                                    <li>Entrega en 2 semanas</li>
+                                </ul>
+                                <a href="#contacto" class="cta-button">Contratar</a>
+                            </div>
+                            
+                            <div class="pricing-card popular">
+                                <h3>Profesional</h3>
+                                <div class="price">$999<span>/único</span></div>
+                                <ul class="pricing-features">
+                                    <li>Diseño de hasta 10 páginas</li>
+                                    <li>SEO intermedio</li>
+                                    <li>Integración con redes sociales</li>
+                                    <li>Galería de productos</li>
+                                    <li>Soporte prioritario</li>
+                                    <li>Entrega en 3 semanas</li>
+                                </ul>
+                                <a href="#contacto" class="cta-button">Contratar</a>
+                            </div>
+                            
+                            <div class="pricing-card">
+                                <h3>Enterprise</h3>
+                                <div class="price">$1999<span>/único</span></div>
+                                <ul class="pricing-features">
+                                    <li>Diseño ilimitado de páginas</li>
+                                    <li>SEO avanzado</li>
+                                    <li>Integración de sistemas</li>
+                                    <li>Carrito de compras</li>
+                                    <li>Soporte VIP</li>
+                                    <li>Entrega en 4 semanas</li>
+                                    <li>Capacitación incluida</li>
+                                </ul>
+                                <a href="#contacto" class="cta-button">Contratar</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="service-packages">
-                    <div class="package-card">
-                        <h3>Básico</h3>
-                        <div class="package-price">$299<span>/mes</span></div>
-                        <ul class="package-features">
-                            <li>Monitorización de reseñas</li>
-                            <li>Respuestas personalizadas</li>
-                            <li>Informe mensual</li>
-                            <li>Soporte por email</li>
-                        </ul>
-                        <a href="#contacto" class="btn">Contratar</a>
-                    </div>
-                    <div class="package-card popular">
-                        <h3>Profesional</h3>
-                        <div class="package-price">$599<span>/mes</span></div>
-                        <ul class="package-features">
-                            <li>Todo en Básico</li>
-                            <li>Generación de reseñas orgánicas</li>
-                            <li>Estrategia de reputación</li>
-                            <li>Informe semanal</li>
-                            <li>Soporte prioritario</li>
-                        </ul>
-                        <a href="#contacto" class="btn">Contratar</a>
-                    </div>
-                    <div class="package-card">
-                        <h3>Empresarial</h3>
-                        <div class="package-price">$999<span>/mes</span></div>
-                        <ul class="package-features">
-                            <li>Todo en Profesional</li>
-                            <li>Gestión de crisis de reputación</li>
-                            <li>Entrenamiento para tu equipo</li>
-                            <li>Integración con CRM</li>
-                            <li>Soporte 24/7</li>
-                        </ul>
-                        <a href="#contacto" class="btn">Contratar</a>
+                    
+                    <!-- Slide 3: Redes Sociales -->
+                    <div class="pricing-plan" data-plan="redes" style="display: none;">
+                        <div class="pricing-grid">
+                            <div class="pricing-card">
+                                <h3>Básico</h3>
+                                <div class="price">$399<span>/mes</span></div>
+                                <ul class="pricing-features">
+                                    <li>Gestión de 1 red social</li>
+                                    <li>12 publicaciones/mes</li>
+                                    <li>Diseño básico</li>
+                                    <li>Informe mensual</li>
+                                    <li>Soporte por email</li>
+                                </ul>
+                                <a href="#contacto" class="cta-button">Contratar</a>
+                            </div>
+                            
+                            <div class="pricing-card popular">
+                                <h3>Profesional</h3>
+                                <div class="price">$699<span>/mes</span></div>
+                                <ul class="pricing-features">
+                                    <li>Gestión de 2 redes sociales</li>
+                                    <li>24 publicaciones/mes</li>
+                                    <li>Diseño profesional</li>
+                                    <li>Campañas publicitarias</li>
+                                    <li>Informe semanal</li>
+                                    <li>Soporte prioritario</li>
+                                </ul>
+                                <a href="#contacto" class="cta-button">Contratar</a>
+                            </div>
+                            
+                            <div class="pricing-card">
+                                <h3>Enterprise</h3>
+                                <div class="price">$1299<span>/mes</span></div>
+                                <ul class="pricing-features">
+                                    <li>Gestión de 4 redes sociales</li>
+                                    <li>48 publicaciones/mes</li>
+                                    <li>Diseño premium</li>
+                                    <li>Estrategia de contenidos</li>
+                                    <li>Campañas avanzadas</li>
+                                    <li>Informe diario</li>
+                                    <li>Soporte VIP</li>
+                                </ul>
+                                <a href="#contacto" class="cta-button">Contratar</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             
-            <!-- Desarrollo Web -->
-            <div class="service-section">
-                <div class="service-header">
-                    <div class="service-icon-large">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <div>
-                        <h2>Desarrollo Web</h2>
-                        <p>Creamos sitios web rápidos, seguros y optimizados para SEO que convierten visitantes en clientes, con diseños modernos y adaptados a móviles.</p>
-                    </div>
-                </div>
-                <div class="service-packages">
-                    <div class="package-card">
-                        <h3>Básico</h3>
-                        <div class="package-price">$1,499<span>/único</span></div>
-                        <ul class="package-features">
-                            <li>Diseño web básico</li>
-                            <li>5 páginas estáticas</li>
-                            <li>Formulario de contacto</li>
-                            <li>Optimización SEO básica</li>
-                            <li>Soporte por 1 mes</li>
-                        </ul>
-                        <a href="#contacto" class="btn">Contratar</a>
-                    </div>
-                    <div class="package-card popular">
-                        <h3>Profesional</h3>
-                        <div class="package-price">$3,999<span>/único</span></div>
-                        <ul class="package-features">
-                            <li>Diseño web personalizado</li>
-                            <li>Hasta 15 páginas</li>
-                            <li>Blog integrado</li>
-                            <li>SEO avanzado</li>
-                            <li>Integración con redes sociales</li>
-                            <li>Soporte por 3 meses</li>
-                        </ul>
-                        <a href="#contacto" class="btn">Contratar</a>
-                    </div>
-                    <div class="package-card">
-                        <h3>Empresarial</h3>
-                        <div class="package-price">$7,999<span>/único</span></div>
-                        <ul class="package-features">
-                            <li>Diseño web premium</li>
-                            <li>Páginas ilimitadas</li>
-                            <li>Tienda online (50 productos)</li>
-                            <li>SEO completo</li>
-                            <li>Integración con CRM</li>
-                            <li>Soporte por 6 meses</li>
-                        </ul>
-                        <a href="#contacto" class="btn">Contratar</a>
-                    </div>
-                </div>
+            <div class="pricing-nav">
+                <button class="pricing-nav-btn active" data-slide="0"></button>
+                <button class="pricing-nav-btn" data-slide="1"></button>
+                <button class="pricing-nav-btn" data-slide="2"></button>
             </div>
             
-            <!-- Redes Sociales -->
-            <div class="service-section">
-                <div class="service-header">
-                    <div class="service-icon-large">
-                        <i class="fas fa-hashtag"></i>
-                    </div>
-                    <div>
-                        <h2>Redes Sociales</h2>
-                        <p>Gestión profesional de redes sociales con contenido estratégico, crecimiento orgánico y campañas publicitarias para aumentar tu alcance y engagement.</p>
-                    </div>
-                </div>
-                <div class="service-packages">
-                    <div class="package-card">
-                        <h3>Básico</h3>
-                        <div class="package-price">$499<span>/mes</span></div>
-                        <ul class="package-features">
-                            <li>2 redes sociales</li>
-                            <li>8 publicaciones/mes</li>
-                            <li>Diseño básico</li>
-                            <li>Informe mensual</li>
-                        </ul>
-                        <a href="#contacto" class="btn">Contratar</a>
-                    </div>
-                    <div class="package-card popular">
-                        <h3>Profesional</h3>
-                        <div class="package-price">$899<span>/mes</span></div>
-                        <ul class="package-features">
-                            <li>3 redes sociales</li>
-                            <li>12 publicaciones/mes</li>
-                            <li>Diseño profesional</li>
-                            <li>Campañas publicitarias</li>
-                            <li>Informe semanal</li>
-                        </ul>
-                        <a href="#contacto" class="btn">Contratar</a>
-                    </div>
-                    <div class="package-card">
-                        <h3>Empresarial</h3>
-                        <div class="package-price">$1,499<span>/mes</span></div>
-                        <ul class="package-features">
-                            <li>5 redes sociales</li>
-                            <li>20 publicaciones/mes</li>
-                            <li>Diseño premium</li>
-                            <li>Campañas avanzadas</li>
-                            <li>Community management</li>
-                            <li>Reportes detallados</li>
-                        </ul>
-                        <a href="#contacto" class="btn">Contratar</a>
-                    </div>
-                </div>
+            <div style="margin-top: 4rem; text-align: center;">
+                <p style="max-width: 700px; margin: 0 auto 2rem;">¿Necesitas un plan personalizado? Contáctanos para crear un paquete a medida según las necesidades específicas de tu negocio.</p>
+                <a href="#contacto" class="cta-button">Solicitar Plan Personalizado</a>
             </div>
         </div>
     </section>
 
-    <!-- Reviews Section -->
-    <section class="reviews" id="testimonios">
+    <!-- Testimonials Section -->
+    <section class="testimonials">
         <div class="container">
-            <div class="section-title">
-                <h2>Lo que dicen nuestros clientes</h2>
-                <p>Experiencias reales de empresas que han transformado su negocio con nosotros</p>
-            </div>
-            <div class="reviews-slider">
-                <div class="review-card">
-                    <div class="review-header">
-                        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Cliente satisfecho" class="review-avatar">
-                        <div>
-                            <div class="review-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <h4>Ana Martínez</h4>
-                        </div>
-                    </div>
-                    <p class="review-text">"Trabajar con Impulsa Tu Digital ha sido un antes y después para mi negocio. En solo 3 meses hemos duplicado nuestras ventas online gracias a su estrategia de marketing."</p>
-                    <p class="review-author">Dueña, Boutique Elegance</p>
+            <h2 class="section-title">Lo que Dicen Nuestros Clientes</h2>
+            <div class="testimonial-slider">
+                <div class="testimonial">
+                    <div class="testimonial-rating">★★★★★</div>
+                    <p class="testimonial-text">"Desde que comenzamos con ImpulsaTuDigital, nuestras reseñas en Google han aumentado un 300% y ahora tenemos una calificación de 4.9 estrellas. El aumento en clientes nuevos ha sido notable."</p>
+                    <div class="testimonial-author">- María González, Restaurante La Familia</div>
                 </div>
-                <div class="review-card">
-                    <div class="review-header">
-                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Cliente satisfecho" class="review-avatar">
-                        <div>
-                            <div class="review-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <h4>Carlos Rodríguez</h4>
-                        </div>
-                    </div>
-                    <p class="review-text">"El rediseño de nuestra web ha mejorado notablemente la experiencia de usuario y nuestras conversiones. El equipo es profesional, creativo y muy comprometido."</p>
-                    <p class="review-author">Director, TechSolutions</p>
+                <div class="testimonial">
+                    <div class="testimonial-rating">★★★★★</div>
+                    <p class="testimonial-text">"El sitio web que nos desarrollaron superó todas nuestras expectativas. En 3 meses ya estábamos en la primera página de Google para nuestras palabras clave principales."</p>
+                    <div class="testimonial-author">- Carlos Mendoza, CEO Mendoza Abogados</div>
                 </div>
-                <div class="review-card">
-                    <div class="review-header">
-                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Cliente satisfecho" class="review-avatar">
-                        <div>
-                            <div class="review-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                            <h4>Laura González</h4>
-                        </div>
-                    </div>
-                    <p class="review-text">"Nuestra tienda online nunca había tenido tanto tráfico. La combinación de SEO y publicidad en redes sociales ha sido explosiva para nuestro crecimiento."</p>
-                    <p class="review-author">CEO, Natural Cosmetics</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-header">
-                        <img src="https://randomuser.me/api/portraits/men/22.jpg" alt="Cliente satisfecho" class="review-avatar">
-                        <div>
-                            <div class="review-stars">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <h4>Javier López</h4>
-                        </div>
-                    </div>
-                    <p class="review-text">"Como consultoría financiera, necesitábamos profesionalismo y discreción. Han entendido perfectamente nuestro mercado y han creado una estrategia a medida."</p>
-                    <p class="review-author">Socio, Finanzas & Más</p>
+                <div class="testimonial">
+                    <div class="testimonial-rating">★★★★★</div>
+                    <p class="testimonial-text">"Nuestras redes sociales han cobrado vida desde que ImpulsaTuDigital las gestiona. Hemos duplicado nuestros seguidores y triplicado el engagement en solo 4 meses."</p>
+                    <div class="testimonial-author">- Ana Rodríguez, Directora Spa Relájate</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section class="contact" id="contacto">
+    <section id="contacto" class="contact">
         <div class="container">
-            <div class="section-title">
-                <h2>Contáctanos</h2>
-                <p>Estamos listos para impulsar tu negocio al siguiente nivel</p>
-            </div>
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <h3>Hablemos de tu proyecto</h3>
-                    <p>Completa el formulario o contáctanos directamente por cualquiera de estos medios. Nuestro equipo responderá a la brevedad.</p>
-                    <ul class="contact-details">
-                        <li>
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Av. Digital 1234, Ciudad Innovación</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-phone-alt"></i>
-                            <span>+1 (555) 123-4567</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-envelope"></i>
-                            <span>hola@impulsatudigital.com</span>
-                        </li>
-                        <li>
-                            <i class="fas fa-clock"></i>
-                            <span>Lunes a Viernes: 9am - 6pm</span>
-                        </li>
-                    </ul>
-                </div>
+            <div class="contact-content">
+                <h2>¿Listo para Impulsar tu Negocio Digital?</h2>
+                <p>Estamos aquí para ayudarte a transformar tu presencia digital y hacer crecer tu negocio. Contáctanos hoy mismo para una consulta gratuita.</p>
+                
                 <div class="contact-form">
-                    <form>
+                    <form id="contactForm">
                         <div class="form-group">
-                            <label for="name">Nombre completo</label>
-                            <input type="text" id="name" required>
+                            <label for="name">Nombre Completo</label>
+                            <input type="text" id="name" name="name" required>
                         </div>
                         <div class="form-group">
-                            <label for="email">Correo electrónico</label>
-                            <input type="email" id="email" required>
+                            <label for="email">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" required>
                         </div>
                         <div class="form-group">
                             <label for="phone">Teléfono</label>
-                            <input type="tel" id="phone">
+                            <input type="tel" id="phone" name="phone">
                         </div>
                         <div class="form-group">
-                            <label for="service">Servicio de interés</label>
-                            <select id="service">
-                                <option value="">Selecciona una opción</option>
-                                <option value="reseñas">Reseñas de Google</option>
+                            <label for="service">Servicio de Interés</label>
+                            <select id="service" name="service">
+                                <option value="reseñas">Gestión de Reseñas</option>
                                 <option value="web">Desarrollo Web</option>
                                 <option value="redes">Redes Sociales</option>
-                                <option value="full">Paquete Completo</option>
-                                <option value="other">Otro</option>
+                                <option value="multiple">Varios Servicios</option>
+                                <option value="personalizado">Plan Personalizado</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="message">Cuéntanos sobre tu proyecto</label>
-                            <textarea id="message" rows="5"></textarea>
+                            <label for="message">Mensaje</label>
+                            <textarea id="message" name="message" required></textarea>
                         </div>
-                        <button type="submit" class="form-submit">Enviar Mensaje</button>
+                        <button type="submit" class="cta-button" style="border: none; cursor: pointer;">Enviar Mensaje</button>
                     </form>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <h4>📍 Ubicación</h4>
+                        <p>Calle Digital 123<br>Ciudad Tecnológica, CP 12345</p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>🕒 Horarios</h4>
+                        <p>Lunes a Viernes<br>9:00 AM - 6:00 PM</p>
+                    </div>
+                    <div class="contact-item">
+                        <h4>📞 Contacto</h4>
+                        <p>info@impulsatudigital.com<br>+1 (555) 123-4567</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
+    <footer class="footer">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-col">
-                    <h3>Impulsa Tu Digital</h3>
-                    <p>Especialistas en transformación digital con más de 10 años de experiencia ayudando a negocios a crecer en internet.</p>
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>ImpulsaTuDigital</h3>
+                    <p>Transformamos negocios a través de estrategias digitales innovadoras. Especialistas en gestión de reseñas Google, desarrollo web profesional y marketing en redes sociales.</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Facebook">📱</a>
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Twitter">🐦</a>
+                        <a href="#" aria-label="LinkedIn">💼</a>
                     </div>
                 </div>
-                <div class="footer-col">
+                <div class="footer-column">
                     <h3>Servicios</h3>
                     <ul class="footer-links">
-                        <li><a href="#servicios">Reseñas de Google</a></li>
+                        <li><a href="#servicios">Gestión de Reseñas Google</a></li>
                         <li><a href="#servicios">Desarrollo Web</a></li>
                         <li><a href="#servicios">Redes Sociales</a></li>
-                        <li><a href="#servicios">SEO y Posicionamiento</a></li>
-                        <li><a href="#servicios">Publicidad Online</a></li>
-                        <li><a href="#servicios">Branding Digital</a></li>
+                        <li><a href="#servicios">SEO y SEM</a></li>
+                        <li><a href="#servicios">E-commerce</a></li>
+                        <li><a href="#servicios">Consultoría Digital</a></li>
                     </ul>
                 </div>
-                <div class="footer-col">
-                    <h3>Empresa</h3>
+                <div class="footer-column">
+                    <h3>Enlaces Rápidos</h3>
                     <ul class="footer-links">
-                        <li><a href="#nosotros">Sobre Nosotros</a></li>
-                        <li><a href="#nosotros">Nuestro Equipo</a></li>
-                        <li><a href="#testimonios">Casos de Éxito</a></li>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Trabaja con Nosotros</a></li>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#servicios">Servicios</a></li>
+                        <li><a href="#precios">Precios</a></li>
+                        <li><a href="#nosotros">Nosotros</a></li>
+                        <li><a href="#testimonios">Testimonios</a></li>
                         <li><a href="#contacto">Contacto</a></li>
                     </ul>
                 </div>
-                <div class="footer-col">
-                    <h3>Newsletter</h3>
-                    <p>Suscríbete para recibir consejos y ofertas exclusivas directamente en tu correo.</p>
-                    <div class="newsletter">
-                        <input type="email" placeholder="Tu correo electrónico">
-                        <button type="submit">Suscribirse</button>
-                    </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Términos de Servicio</a></li>
+                        <li><a href="#">Cookies</a></li>
+                    </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2023 Impulsa Tu Digital. Todos los derechos reservados. | <a href="#">Política de Privacidad</a> | <a href="#">Términos de Servicio</a></p>
+                <p>&copy; 2024 ImpulsaTuDigital. Todos los derechos reservados.</p>
+                <div class="footer-bottom-links">
+                    <a href="#">Política de Privacidad</a>
+                    <a href="#">Términos de Servicio</a>
+                    <a href="#">Cookies</a>
+                </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // Custom Cursor
-        const cursor = document.querySelector('.cursor');
-        const cursorFollower = document.querySelector('.cursor-follower');
+        // Three.js Background Animation
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('hero-canvas'), alpha: true });
         
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-            
-            gsap.to(cursorFollower, {
-                x: e.clientX,
-                y: e.clientY,
-                duration: 0.5,
-                ease: 'power1.out'
-            });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x000000, 0);
+
+        // Create geometric shapes
+        const geometry = new THREE.TorusGeometry(1, 0.4, 16, 100);
+        const material = new THREE.MeshBasicMaterial({ 
+            color: 0x4ecdc4,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.6
         });
-        
-        // Hover effects
-        const hoverElements = document.querySelectorAll('a, button, .service-card, .package-card, .review-card');
-        
-        hoverElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursor.style.transform = 'scale(1.5)';
-                cursor.style.backgroundColor = 'var(--accent)';
-                cursor.style.opacity = '0.5';
-                cursorFollower.style.transform = 'scale(1.3)';
+
+        const shapes = [];
+        for(let i = 0; i < 15; i++) {
+            const shape = new THREE.Mesh(geometry, material.clone());
+            shape.position.x = (Math.random() - 0.5) * 20;
+            shape.position.y = (Math.random() - 0.5) * 20;
+            shape.position.z = (Math.random() - 0.5) * 20;
+            shape.rotation.x = Math.random() * Math.PI;
+            shape.rotation.y = Math.random() * Math.PI;
+            scene.add(shape);
+            shapes.push(shape);
+        }
+
+        camera.position.z = 5;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            shapes.forEach((shape, index) => {
+                shape.rotation.x += 0.01 + index * 0.001;
+                shape.rotation.y += 0.01 + index * 0.001;
+                shape.position.y = Math.sin(Date.now() * 0.001 + index) * 2;
             });
             
-            el.addEventListener('mouseleave', () => {
-                cursor.style.transform = 'scale(1)';
-                cursor.style.backgroundColor = 'transparent';
-                cursor.style.opacity = '1';
-                cursorFollower.style.transform = 'scale(1)';
-            });
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
         });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
+
+        // Floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particle.style.opacity = Math.random() * 0.5 + 0.3;
                 
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+                particlesContainer.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 15000);
+            }, 2000);
+        }
+        createParticles();
+
+        // Counter animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target')) || parseInt(counter.textContent);
+                const increment = target / 100;
+                let current = 0;
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = counter.textContent.includes('%') ? 
+                            Math.ceil(current) + '%' : Math.ceil(current);
+                        setTimeout(updateCounter, 50);
+                    } else {
+                        counter.textContent = counter.textContent.includes('%') ? 
+                            target + '%' : target;
+                    }
+                };
+                
+                // Start animation when element is in view
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateCounter();
+                            observer.unobserve(entry.target);
+                        }
+                    });
                 });
+                
+                observer.observe(counter);
+            });
+        }
+        animateCounters();
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             });
         });
-        
-        // GSAP Animations
-        gsap.from('.hero-text h1', {
-            duration: 1,
-            y: 50,
-            opacity: 0,
-            ease: 'power3.out'
-        });
-        
-        gsap.from('.hero-text p', {
-            duration: 1,
-            y: 50,
-            opacity: 0,
-            delay: 0.3,
-            ease: 'power3.out'
-        });
-        
-        gsap.from('.btn', {
-            duration: 1,
-            y: 50,
-            opacity: 0,
-            delay: 0.6,
-            ease: 'power3.out'
-        });
-        
-        gsap.from('.hero-image img', {
-            duration: 1.5,
-            scale: 0.8,
-            opacity: 0,
-            delay: 0.3,
-            ease: 'back.out(1.7)'
-        });
-        
-        gsap.from('.about-image img', {
-            duration: 1,
-            x: -50,
-            opacity: 0,
-            scrollTrigger: {
-                trigger: '.about',
-                start: 'top 80%'
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(10, 10, 10, 0.95)';
+            } else {
+                navbar.style.background = 'rgba(10, 10, 10, 0.9)';
             }
         });
-        
-        gsap.from('.about-text', {
-            duration: 1,
-            x: 50,
-            opacity: 0,
-            scrollTrigger: {
-                trigger: '.about',
-                start: 'top 80%'
-            }
+
+        // Service cards animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.opacity = '1';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.service-card, .pricing-card, .team-member').forEach(card => {
+            card.style.transform = 'translateY(50px)';
+            card.style.opacity = '0';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
         });
-        
-        gsap.from('.service-section', {
-            duration: 1,
-            y: 100,
-            opacity: 0,
-            stagger: 0.2,
-            scrollTrigger: {
-                trigger: '.services',
-                start: 'top 80%'
-            }
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Gracias por tu mensaje. Nos pondremos en contacto contigo pronto.');
+            this.reset();
         });
-        
-        // Particles.js configuration
-        document.addEventListener('DOMContentLoaded', function() {
-            // This would be replaced with actual particles.js initialization
-            // For now we'll just simulate that the library is loaded
-            console.log('Particles.js would be initialized here');
+
+        // Pricing slider functionality
+        const pricingTabs = document.querySelectorAll('.pricing-tab');
+        const pricingPlans = document.querySelectorAll('.pricing-plan');
+        const pricingNavBtns = document.querySelectorAll('.pricing-nav-btn');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            pricingPlans.forEach(plan => plan.style.display = 'none');
+            pricingPlans[index].style.display = 'block';
+            
+            pricingTabs.forEach(tab => tab.classList.remove('active'));
+            pricingTabs[index].classList.add('active');
+            
+            pricingNavBtns.forEach(btn => btn.classList.remove('active'));
+            pricingNavBtns[index].classList.add('active');
+            
+            currentSlide = index;
+        }
+
+        pricingTabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => showSlide(index));
         });
+
+        pricingNavBtns.forEach((btn, index) => {
+            btn.addEventListener('click', () => showSlide(index));
+        });
+
+        // Initialize first slide
+        showSlide(0);
+
+        // Auto slide (optional)
+        setInterval(() => {
+            const nextSlide = (currentSlide + 1) % pricingPlans.length;
+            showSlide(nextSlide);
+        }, 8000);
     </script>
 </body>
 </html>
